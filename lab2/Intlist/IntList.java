@@ -82,7 +82,15 @@ public class IntList {
 
     public static IntList dcatenate(IntList A, IntList B) {
         //TODO:  fill in method
-        return null;
+        IntList temp = A;
+        IntList A_tail = null;
+        /* Reach the end of A*/
+        while (temp.rest!=null){
+            temp = temp.rest;
+        }/*temp is the last node of list A after the while loop*/
+
+        temp.rest = B;
+        return A;
     }
 
     /**
@@ -91,7 +99,20 @@ public class IntList {
      */
     public static IntList catenate(IntList A, IntList B) {
         //TODO:  fill in method
-        return null;
+        //Create a new copy of A
+        IntList newA = Copy(A);
+        //Reach the end of A
+        IntList temp = newA;
+        while (temp.rest!=null){
+            temp = temp.rest;
+        }
+        temp.rest = B;
+        return newA;
+    }
+
+    public static IntList Copy(IntList Src){
+        if(Src == null) return null;
+        return new IntList(Src.first, Copy(Src.rest));
     }
 
 
