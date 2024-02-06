@@ -82,6 +82,7 @@ public class IntList {
 
     public static IntList dcatenate(IntList A, IntList B) {
         //TODO:  fill in method
+        if(A == null) return B;
         IntList temp = A;
         IntList A_tail = null;
         /* Reach the end of A*/
@@ -100,6 +101,7 @@ public class IntList {
     public static IntList catenate(IntList A, IntList B) {
         //TODO:  fill in method
         //Create a new copy of A
+        if(A == null) return B;
         IntList newA = Copy(A);
         //Reach the end of A
         IntList temp = newA;
