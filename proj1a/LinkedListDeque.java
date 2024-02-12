@@ -23,6 +23,7 @@ public class LinkedListDeque<T> {
     }
     public void addFirst(T item) {
         Node<T> first = new Node<>(item);
+        sentinel.next.prev = first;
         first.next = sentinel.next;
         first.prev = sentinel;
         sentinel.next = first;
