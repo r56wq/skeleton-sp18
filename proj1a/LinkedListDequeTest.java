@@ -111,6 +111,23 @@ public class LinkedListDequeTest {
 		lld1.addFirst(3);
 		//should return 3
 		passed = checkeq(3, lld1.removeLast()) && passed;
+
+		//should return null
+		passed = checkeq(null, lld1.removeFirst()) && passed;
+		passed = checkeq(null, lld1.removeLast()) && passed;
+
+		//get negative item
+		passed = checkeq(null, lld1.get(-1)) && passed;
+
+		//get larger than size item
+		lld1.addFirst(2);
+		lld1.addLast(6);
+		lld1.addFirst(1);
+
+		passed = checkeq(1, lld1.get(0)) && passed;
+		passed = checkeq(1, lld1.getRecursive(0)) && passed;
+		passed = checkeq(1, lld1.getRecursive(2)) && passed;
+		passed = checkeq(null, lld1.getRecursive(3)) && passed;
 		printTestStatus(passed);
 
 	}
