@@ -1,4 +1,3 @@
-
 public class LinkedListDeque<T> {
 
     /** Node inside the linklist **/
@@ -89,13 +88,15 @@ public class LinkedListDeque<T> {
         return temp.item;
     }
 
-    public T getRecursive(int index){
-        if((index < 0) || (index > size)){
+    public T getRecursive(int index) {
+        if ((index < 0) || (index > size)) {
             return null;
-        }
-        else if (index == 0) {
+        } else if (index == 0) {
             return sentinel.next.item;
         }
+
         return getRecursive(index - 1);
     }
+
+
 }

@@ -2,25 +2,25 @@ public class ArrayDeque<T> {
     private int size;
     private int nextfirst;
     private int nextlast;
-    private T[] Item;
+    private T[] itemArray;
 
-    private int InitArraySize = 8;
+    private int initArraySize = 8;
     public ArrayDeque() {
         size = 0; //the starting size is 8
 
         nextfirst = 3; //randomly choose
         nextfirst = 4; //randomly choose
-        Item = (T[]) new Object[InitArraySize];
+        itemArray = (T[]) new Object[initArraySize];
     }
 
     public void addFirst(T item) {
         int factor = 2;
         int flag = needResize();
         if (flag == 0) { //the size is ok
-            Item[nextfirst] = item;
+            itemArray[nextfirst] = item;
         } else if (flag == 1) { //the array is full
-            resize(factor * Item.length); //multiply by factor
-            Item[nextfirst] = item;
+            resize(factor * itemArray.length); //multiply by factor
+            itemArray[nextfirst] = item;
         }
         size++; //change the size
         nextfirst = ((nextfirst - 1) + size) % size; //change nextfirst
@@ -30,10 +30,10 @@ public class ArrayDeque<T> {
         int factor = 2;
         int flag = needResize();
         if (flag == 0) { //the size is ok
-            Item[nextlast] = item;
+            itemArray[nextlast] = item;
         } else if (flag == 1) { //the array is full
-            resize(factor * Item.length); //multiply by factor
-            Item[nextlast] = item;
+            resize(factor * itemArray.length); //multiply by factor
+            itemArray[nextlast] = item;
         }
 
         size++; //change the size
@@ -53,7 +53,7 @@ public class ArrayDeque<T> {
         int last = ((nextlast - 1) + size) % size;
         int temp = first;
         while (temp != last) {
-            System.out.print(Item[temp].toString() + " ");
+            System.out.print(itemArray[temp].toString() + " ");
             temp = ((temp - 1) + size) % size;
         }
     }
@@ -63,14 +63,14 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        int CurrentFirst = (nextfirst + 1 + size) % size;
-        T firstItem = Item[CurrentFirst];
-        Item[CurrentFirst] = null; //discard the Obj
-        nextfirst = CurrentFirst;
+        int currentFirst = (nextfirst + 1 + size) % size;
+        T firstItem = itemArray[currentFirst];
+        itemArray[currentFirst] = null; //discard the Obj
+        nextfirst = currentFirst;
         if (needResize() == 2) {
             int factor = 2;
-            resize(Item.length / factor);
-            Item[CurrentFirst] = null; //discard the Obj
+            resize(itemArray.length / factor);
+            itemArray[currentFirst] = null; //discard the Obj
         }
         size--;
         return firstItem;
@@ -81,14 +81,14 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        int CurrentLast = (nextlast + 1 + size) % size;
+        int currentLast = (nextlast + 1 + size) % size;
         size--; //Put size-- here so that not divided by 0
-        T lastItem = Item[CurrentLast];
-        nextlast = CurrentLast;
-        Item[CurrentLast] = null;
+        T lastItem = itemArray[currentLast];
+        nextlast = currentLast;
+        itemArray[currentLast] = null;
         if (needResize() == 2) {
             int factor = 2; //meaning half the array
-            resize(Item.length / factor);
+            resize(itemArray.length / factor);
         }
         size--;
         return lastItem;
@@ -107,32 +107,33 @@ public class ArrayDeque<T> {
             temp = (temp - 1 + size) % size;
         }
         //now temp is the real desired index in the array
-        return Item[temp];
+        return itemArray[temp];
     }
 
 
     /**
      * helper method to resize the array when it is full or when the usage is too low
      */
-    private void resize(int Capacity) {
-        T[] NewItem = (T[]) new Object[Capacity];
-        if (Capacity > size) {/* A larger array is needed, so it is safe to simply copy 0~end of the
-          original array, without changing nextfirst and nextlast*/
-            System.arraycopy(Item, 0, NewItem, 0, size);
-            Item = NewItem;
+    private void resize(int capacity) {
+        T[] newItem = (T[]) new Object[capacity];
+        if (capacity > size) { /* A larger array is needed, so it is safe to simply copy 0~end of
+        the original array, without changing nextfirst and nextlast*/
+            System.arraycopy(itemArray, 0, newItem, 0, size);
+            itemArray = newItem;
         }
 
-        /*If a smaller array is needed, using a loop to copy, and nextfirst and nextlast need to be changed*/
-        nextfirst = Capacity / 2;
+        /*If a smaller array is needed, using a loop to copy, and nextfirst and nextlast need to
+        be changed*/
+        nextfirst = capacity / 2;
         nextlast = nextfirst + 1;
         for (int i = 0; i < size; i++) {
-            if ((Item[i] != null) && (nextfirst != nextlast)) {/*If the original array is not null and the
-            new one is not empty*/
-                NewItem[nextfirst] = Item[i];
+            if ((itemArray[i] != null) && (nextfirst != nextlast)) { /*If the original array is not
+            null and the new one is not empty*/
+                newItem[nextfirst] = itemArray[i];
                 nextfirst = (nextfirst + size - 1) % size;
             }
         }
-        Item = NewItem;
+        itemArray = newItem;
     }
 
     /**
@@ -144,13 +145,13 @@ public class ArrayDeque<T> {
     private int needResize() {
         int flag = 0;
         int threshold = 16;
-        int l = Item.length;
+        int l = itemArray.length;
         if (size == l) {
             flag = 1;
-        }
-        else if ((size < l / 4) && (l >= threshold)) {
+        } else if ((size < l / 4) && (l >= threshold)) {
             flag = 2;
         }
+
         return flag;
     }
 }
