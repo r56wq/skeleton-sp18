@@ -99,7 +99,7 @@ public class ArrayDeque<T> {
 
     public T get(int index) {
         //check valid index
-        if (index > size) {
+        if ((index >=  size) || (index < 0)) {
             return null;
         }
 
@@ -116,7 +116,7 @@ public class ArrayDeque<T> {
         T[] newItem = (T[]) new Object[capacity];
 
         int new_nextfirst = capacity / 2;
-        int new_nextlast = nextfirst + 1;
+        int new_nextlast = new_nextfirst + 1;
         for(int index = size - 1; index >= 0; index--){ /*index is for old array*/
             newItem[new_nextfirst] = get(index);
             new_nextfirst = (new_nextfirst - 1 + capacity) % capacity;
@@ -145,8 +145,6 @@ public class ArrayDeque<T> {
         return flag;
     }
 
-    public int getArrayLength(){
-        return itemArray.length;
-    }
+
 }
 

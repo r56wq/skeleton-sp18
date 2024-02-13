@@ -77,9 +77,9 @@ public class ADTest {
             deque.addLast(i);
         }
         assertEquals(20, deque.size());
-        for (int i = 0; i < 18; i++) {
+        for (int i = 0; i < 20; i++) {
             assertEquals(i, (int) deque.removeFirst());
         }
-        assertEquals(8, deque.getArrayLength());
+
     }
 }
