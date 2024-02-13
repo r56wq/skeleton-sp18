@@ -104,7 +104,7 @@ public class ArrayDeque<T> {
         }
 
         int l = itemArray.length;
-        int idx = (nextfirst + 1 + l) % l + index;
+        int idx = (nextfirst + 1 + l + index) % l;
         return itemArray[idx];
     }
 
@@ -114,25 +114,16 @@ public class ArrayDeque<T> {
      */
     private void resize(int capacity) {
         T[] newItem = (T[]) new Object[capacity];
-        if (capacity > itemArray.length) { /* A larger array is needed, so it is safe to simply copy 0~end of
-        the original array */
-            System.arraycopy(itemArray, 0, newItem, 0, size);
-            itemArray = newItem;
-            return;
-        }
 
-        /*If a smaller array is needed, using a loop to copy, and nextfirst and nextlast need to
-        be changed*/
-        nextfirst = capacity / 2;
-        nextlast = nextfirst + 1;
-        for (int i = 0; i < size; i++) {
-            if ((itemArray[i] != null) && (nextfirst != nextlast)) { /*If the original array is not
-            null and the new one is not empty*/
-                newItem[nextfirst] = itemArray[i];
-                nextfirst = (nextfirst + capacity - 1) % capacity;
-            }
+        int new_nextfirst = capacity / 2;
+        int new_nextlast = nextfirst + 1;
+        for(int index = size - 1; index >= 0; index--){ /*index is for old array*/
+            newItem[new_nextfirst] = get(index);
+            new_nextfirst = (new_nextfirst - 1 + capacity) % capacity;
         }
         itemArray = newItem;
+        nextlast = new_nextlast;
+        nextfirst = new_nextfirst;
     }
 
     /**
