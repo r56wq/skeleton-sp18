@@ -9,7 +9,7 @@ public class ArrayDeque<T> {
         size = 0; //the starting size is 8
 
         nextfirst = 3; //randomly choose
-        nextfirst = 4; //randomly choose
+        nextlast = 4; //randomly choose
         itemArray = (T[]) new Object[initArraySize];
     }
 
@@ -23,7 +23,8 @@ public class ArrayDeque<T> {
             itemArray[nextfirst] = item;
         }
         size++; //change the size
-        nextfirst = ((nextfirst - 1) + size) % size; //change nextfirst
+        int l = itemArray.length;
+        nextfirst = ((nextfirst - 1) + l) % l; //change nextfirst
     }
 
     public void addLast(T item) {
@@ -37,7 +38,8 @@ public class ArrayDeque<T> {
         }
 
         size++; //change the size
-        nextlast = (nextlast + 1 + size) % size; //chane next-last
+        int l = itemArray.length;
+        nextlast = (nextlast + 1 + l) % l; //chane next-last
     }
 
     public boolean isEmpty() {
@@ -63,7 +65,8 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        int currentFirst = (nextfirst + 1 + size) % size;
+        int l = itemArray.length;
+        int currentFirst = (nextfirst + 1 + l) % l;
         T firstItem = itemArray[currentFirst];
         itemArray[currentFirst] = null; //discard the Obj
         nextfirst = currentFirst;
@@ -81,8 +84,8 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        int currentLast = (nextlast + 1 + size) % size;
-        size--; //Put size-- here so that not divided by 0
+        int l = itemArray.length;
+        int currentLast = (nextlast - 1 + l) % l;
         T lastItem = itemArray[currentLast];
         nextlast = currentLast;
         itemArray[currentLast] = null;
@@ -100,14 +103,9 @@ public class ArrayDeque<T> {
             return null;
         }
 
-        int i = 0;
-        int temp = (nextfirst + 1 + size) % size;
-        while (i < index) {
-            i++;
-            temp = (temp - 1 + size) % size;
-        }
-        //now temp is the real desired index in the array
-        return itemArray[temp];
+        int l = itemArray.length;
+        int idx = (nextfirst + 1 + l) % l + index;
+        return itemArray[idx];
     }
 
 
@@ -116,10 +114,11 @@ public class ArrayDeque<T> {
      */
     private void resize(int capacity) {
         T[] newItem = (T[]) new Object[capacity];
-        if (capacity > size) { /* A larger array is needed, so it is safe to simply copy 0~end of
-        the original array, without changing nextfirst and nextlast*/
+        if (capacity > itemArray.length) { /* A larger array is needed, so it is safe to simply copy 0~end of
+        the original array */
             System.arraycopy(itemArray, 0, newItem, 0, size);
             itemArray = newItem;
+            return;
         }
 
         /*If a smaller array is needed, using a loop to copy, and nextfirst and nextlast need to
@@ -130,7 +129,7 @@ public class ArrayDeque<T> {
             if ((itemArray[i] != null) && (nextfirst != nextlast)) { /*If the original array is not
             null and the new one is not empty*/
                 newItem[nextfirst] = itemArray[i];
-                nextfirst = (nextfirst + size - 1) % size;
+                nextfirst = (nextfirst + capacity - 1) % capacity;
             }
         }
         itemArray = newItem;
@@ -153,6 +152,10 @@ public class ArrayDeque<T> {
         }
 
         return flag;
+    }
+
+    public int getArrayLength(){
+        return itemArray.length;
     }
 }
 
