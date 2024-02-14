@@ -1,4 +1,4 @@
-public class ArrayDeque<T> implements Deque<T>{
+public class ArrayDeque<T> implements Deque<T> {
     private int size;
     private int nextfirst;
     private int nextlast;
@@ -123,15 +123,15 @@ public class ArrayDeque<T> implements Deque<T>{
     private void resize(int capacity) {
         T[] newItem = (T[]) new Object[capacity];
 
-        int new_nextfirst = capacity / 2;
-        int new_nextlast = new_nextfirst + 1;
-        for(int index = size - 1; index >= 0; index--){ /*index is for old array*/
-            newItem[new_nextfirst] = get(index);
-            new_nextfirst = (new_nextfirst - 1 + capacity) % capacity;
+        int newNextfirst = capacity / 2;
+        int newNextlast = newNextfirst + 1;
+        for (int index = size - 1; index >= 0; index--) { /*index is for old array*/
+            newItem[newNextfirst] = get(index);
+            newNextfirst = (newNextfirst - 1 + capacity) % capacity;
         }
         itemArray = newItem;
-        nextlast = new_nextlast;
-        nextfirst = new_nextfirst;
+        nextlast = newNextlast;
+        nextfirst = newNextfirst;
     }
 
     /**

@@ -106,15 +106,15 @@ public class LinkedListDeque<T> implements Deque<T> {
             return null;
         }
         return getrecursive(sentinel.next, index);
-        }
+    }
 
-    private T getrecursive(Node<T> currentNode, int index){
-        if(index == 0){
+    private T getrecursive(Node<T> currentNode, int index) {
+        if (index == 0) {
             return currentNode.item;
         }
-        return getrecursive(currentNode.next, index-1);
+        return getrecursive(currentNode.next, index - 1);
     }
-    }
+}
 
 
 
