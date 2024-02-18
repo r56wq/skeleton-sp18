@@ -27,6 +27,13 @@ public class TestArrayRingBuffer {
             System.out.println(i);
         }
     }
+
+    @Test
+    public void testPluck() {
+        GuitarString GS = new GuitarString(10000);
+        GS.pluck();
+        GS.sample();
+    }
     /** Calls tests for ArrayRingBuffer. */
     public static void main(String[] args) {
         jh61b.junit.textui.runClasses(TestArrayRingBuffer.class);
