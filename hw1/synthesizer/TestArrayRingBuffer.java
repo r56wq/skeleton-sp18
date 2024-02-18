@@ -23,11 +23,12 @@ public class TestArrayRingBuffer {
         arb.enqueue(1);
         arb.enqueue(4);
         arb.enqueue(10);
-        for(int i : arb) {
-            System.out.println(i);
+        for (int i : arb) {
+            for (int j : arb) {
+                System.out.println(i + " " + j + "");
+            }
         }
     }
-
     @Test
     public void testPluck() {
         GuitarString GS = new GuitarString(10000);
