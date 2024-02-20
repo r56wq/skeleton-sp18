@@ -33,10 +33,42 @@ public class MapDemo {
 
             /**
              * Test drawRoom
-             */
+
             Draw drawer = new Draw();
             Coordinate bottomleft = new Coordinate(20, 10);
             drawer.drawRoom(bottomleft, 5, 8, world);
             ter.renderFrame(world);
+             */
+
+            /**
+             * Test drawHorizontal and drawVertical
+
+            Draw drawer = new Draw();
+            Coordinate p0 = new Coordinate(5, 10);
+            int length0 = 5;
+            Coordinate p1 = new Coordinate(5, 14);
+            int length1 = 10;
+            drawer.drawVertical(p0, length0, world, "floor");
+            drawer.drawHorizontal(p1, length1, world, "floor");
+             */
+
+            /**Test drawTurn
+            Coordinate start = new Coordinate(25, 15);
+            Coordinate mid = new Coordinate(35, 15);
+            Coordinate end = new Coordinate(35, 20);
+            Draw drawer = new Draw();
+            drawer.drawTurn(start, mid, end, world, "floor");
+            ter.renderFrame(world);
+             **/
+
+            /**Test drawConnectoinBT */
+            Coordinate start = new Coordinate(35, 25);
+            Coordinate mid1 = new Coordinate(35, 15);
+            Coordinate mid2 = new Coordinate(20, 15);
+            Coordinate end = new Coordinate(20, 5);
+            Draw.drawConnectionBT(start, mid1, mid2, end, world, "floor");
+            ter.renderFrame(world);
+
+
         }
 }
