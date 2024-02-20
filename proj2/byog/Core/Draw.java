@@ -1,5 +1,4 @@
 package byog.Core;
-import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
@@ -15,16 +14,38 @@ public class Draw {
         tilesmap = tileMapping();
     }
 
+    /**
+     * draw a room with walls, note that the width and height here include the wall
+     * */
+    public void drawRoom(Coordinate bottomLeft, int width, int height,
+                         TETile[][] world) {
+        //draw walls
+        drawRect(bottomLeft, width, height, world, "wall");
+
+        Coordinate bottromLeftFloor = new Coordinate(bottomLeft.x + 1, bottomLeft.y + 1);
+        int floorW = width - 2;
+        int floorH = height - 2;
+        drawRect(bottromLeftFloor, floorW, floorH, world, "floor");
+    }
+
+
+
+
+
+
+
     //helper method that draws the rectangle
-    private void drawRect(int bottomleftX, int bottomleftY, int width, int height,
+    private void drawRect(Coordinate bottomleft ,int width, int height,
                           TETile[][] world, String fill) {
+        int bottomleftX = bottomleft.x;
+        int bottomleftY = bottomleft.y;
         TETile tile = tilesmap.get(fill);
         if (tile == null) {
             throw new RuntimeException("No such fill");
         }
-        for (int i = bottomleftY; i < bottomleftY + height; i++) {
-            for (int j = bottomleftX; j < bottomleftX + width; j++) {
-                world[i][j] = tile;
+        for (int j = bottomleftX; j < bottomleftX + width; j++) {
+            for (int i = bottomleftY; i < bottomleftY + height; i++) {
+                world[j][i] = tile;
             }
         }
     }

@@ -31,5 +31,12 @@ public class MapDemo {
             ter.renderFrame(world);
              **/
 
-    }
+            /**
+             * Test drawRoom
+             */
+            Draw drawer = new Draw();
+            Coordinate bottomleft = new Coordinate(20, 10);
+            drawer.drawRoom(bottomleft, 5, 8, world);
+            ter.renderFrame(world);
+        }
 }
