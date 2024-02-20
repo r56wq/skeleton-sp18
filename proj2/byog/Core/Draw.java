@@ -1,24 +1,17 @@
 package byog.Core;
+import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
 import java.util.HashMap;
 
-public class Room {
-    private int bottomleftX;
-    private int bottomleftY;
-    private int width;
-    private int height;
-    private int index;
+public class Draw {
 
-    private HashMap<String, TETile> tilesmap;
+    private HashMap<String, TETile> tilesmap; //map from string to TETILE
 
-    public Room(int x, int y, int w, int h, int idx) {
-        bottomleftX = x;
-        bottomleftY = y;
-        width = w;
-        height = h;
-        index = idx;
+
+    public Draw() {
+
         tilesmap = tileMapping();
     }
 
@@ -37,7 +30,7 @@ public class Room {
     }
 
     //helper method that maps from String fill to a Tileset
-    private HashMap<String, TETile> tileMapping() {
+    private static HashMap<String, TETile> tileMapping() {
         HashMap<String, TETile> stMap = new HashMap<>();
         stMap.put("player", Tileset.PLAYER);
         stMap.put("wall", Tileset.WALL);
@@ -53,4 +46,5 @@ public class Room {
 
         return stMap;
     }
+
 }
