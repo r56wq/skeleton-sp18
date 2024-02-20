@@ -45,42 +45,48 @@ public class HexWorld {
         int[][] xList = new int[height][maxLength];
         int startIdx = l - 1;
         int endIdx = startIdx + l - 1;
-
-        //fill the bottom half part. note that l is the half height
-        for (int i = 0; i < l; i++) {
-            int leftX = topLeftX - i;
-            for (int j = 0; j < maxLength; j++) {
-                if ((j < startIdx) || (j > endIdx)) { /* not a valid index */
-                    xList[i][j] = -1; //-1 meaning not a valid index
+        int startX = topLeftX;
+        //note that l is the half height
+        for (int i = 0; i < height; i++) {
+            if (i < l) { //fill the bottom half part.
+                int leftX = startX;
+                for (int j = 0; j < maxLength; j++) {
+                    if ((j < startIdx) || (j > endIdx)) { /* not a valid index */
+                        xList[i][j] = -1; //-1 meaning not a valid index
+                    } else {
+                        xList[i][j] = leftX;
+                        leftX++;
+                    }
                 }
-                else {
-                    xList[i][j] = leftX;
-                    leftX++;
-                }
+                startX = startX - 1;
+                //change start and end index
+                startIdx--;
+                endIdx++;
             }
 
-            //change start and end index
-            startIdx--;
-            endIdx++;
-        }
-
-        //fill the top half part. note that l is the half height
-        for (int i = l; i < height; i++) {
-            int leftX = topLeftX - l + 1 + i;
-            for (int j = 0; j < maxLength; j++) {
-                if ((j < startIdx) || (j > endIdx)) {
-                    xList[i][j] = -1; //mark invalid
+            else { //fill the top half part
+                if (i == l) {
+                    startIdx++;
+                    endIdx--;
+                    startX++;
                 }
-                else {
-                    xList[i][j] = leftX;
-                    leftX++;
+                int leftX = startX;
+                for(int j = 0; j < maxLength; j++) {
+                    if ((j < startIdx || (j > endIdx))) { //not a valid index
+                        xList[i][j] = -1;
+                    }else {
+                        xList[i][j] = leftX;
+                        leftX ++;
+                    }
                 }
+                startX = startX + 1;
+                startIdx++;
+                endIdx--;
             }
 
-            //change start and end index
-            startIdx++;
-            endIdx--;
         }
+
+
         return xList;
     }
 
@@ -88,10 +94,14 @@ public class HexWorld {
     * draw the plot given world and coordinates
     * */
     private static void draw(TETile[][] world, int[][] xList, int[] yList) {
-        for (int i : yList) {
-            for (int j = 0; j < xList[i].length; j++) {
-                if (xList[i][j] != -1) { /*valid index */
-                    world[j][i] = Tileset.WALL;
+        int maxlength = xList[0].length;
+        int height = xList.length;
+        for (int yidx = 0; yidx < height; yidx++) {
+            for (int xidx = 0; xidx < maxlength; xidx++) {
+                int x = xList[yidx][xidx];
+                int y = yList[yidx];
+                if (x != -1) { /*valid x */
+                    world[x][y] = Tileset.WALL;
                 }
             }
         }
