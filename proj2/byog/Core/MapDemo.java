@@ -88,8 +88,23 @@ public class MapDemo {
             ter.renderFrame(world);
             */
 
+            /**Test drawHallway type2
+             Coordinate start = new Coordinate(35, 25);
+             Coordinate mid1 = new Coordinate(35, 10);
+             Coordinate mid2 = new Coordinate(50, 10);
+             Coordinate end = new Coordinate(50, 5);
+             Draw.drawHallway(2, start, mid1, mid2, end, world);
+             ter.renderFrame(world);
+             */
 
-
+            /**Test drawHallway type3
+             Coordinate start = new Coordinate(25, 10);
+             Coordinate mid1 = new Coordinate(25, 20);
+             Coordinate mid2 = new Coordinate(33, 20);
+             Coordinate end = new Coordinate(33, 29);
+             Draw.drawHallway(3, start, mid1, mid2, end, world);
+             ter.renderFrame(world);
+             */
 
         }
 }
