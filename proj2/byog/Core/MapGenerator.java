@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class MapGenerator {
 
+
     private static final int WIDTH = 80;
     private static final int HEIGHT = 30;
     private static final int MAX_ROOM_WIDTH = 10;
@@ -40,11 +41,28 @@ public class MapGenerator {
             int x = random.nextInt(WIDTH - roomWidth - 1) + 1;
             int y = random.nextInt(HEIGHT - roomHeight - 1) + 1;
             Coordinate bottomLeft = new Coordinate(x, y);
-            Draw.drawRoom(bottomLeft, roomWidth, roomHeight, world);
+
+            // Check for overlap with existing rooms
+            if (!roomOverlap(bottomLeft, roomWidth, roomHeight)) {
+                Draw.drawRoom(bottomLeft, roomWidth, roomHeight, world);
+            }
         }
         connectRooms();
         return world;
     }
+
+    private boolean roomOverlap(Coordinate bottomLeft, int width, int height) {
+        // Check if the new room overlaps with any existing room
+        for (int x = bottomLeft.x; x < bottomLeft.x + width; x++) {
+            for (int y = bottomLeft.y; y < bottomLeft.y + height; y++) {
+                if (world[x][y] != Tileset.NOTHING) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     private void connectRooms() {
         // Connect rooms with hallways
