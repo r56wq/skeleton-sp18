@@ -1,5 +1,6 @@
 package byog.Core;
 import byog.SaveDemo.World;
+import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
@@ -7,7 +8,7 @@ import java.util.HashMap;
 
 public class Draw {
 
-    private static HashMap<String, TETile> tilesmap; //map from string to TETILE
+    private static final HashMap<String, TETile> tilesmap; //map from string to TETILE
     static {
         tilesmap = tileMapping();
     }
@@ -75,7 +76,7 @@ public class Draw {
         }
         //decide the start point since draw from left to right
         Coordinate start = p0.x < p1.x? p0:p1;
-        int width = Math.abs(p0.x - p1.x);
+        int width = Math.abs(p0.x - p1.x) + 1;
         drawRect(start, width, 1, world, fill);
     }
 
@@ -90,7 +91,7 @@ public class Draw {
         }
         // Decide the start point since we draw from bottom to top
         Coordinate start = p0.y < p1.y ? p0 : p1;
-        int height = Math.abs(p0.y - p1.y);
+        int height = Math.abs(p0.y - p1.y) + 1;
         drawRect(start, 1, height, world, fill);
     }
 
@@ -104,10 +105,46 @@ public class Draw {
     }
 
     //helper method that draws a connection, for top to bottom connection case
-    public static void drawConnectionBT(Coordinate start, Coordinate mid1, Coordinate mid2, Coordinate end,
+    private static void drawConnectionBT(Coordinate start, Coordinate mid1, Coordinate mid2, Coordinate end,
                                   TETile[][] world, String fill) {
         drawVertical(start, mid1, world, fill);
         drawHorizontal(mid1, mid2, world, fill);
         drawVertical(mid2, end, world, fill);
     }
+
+    //helper method that draws a hallway with walls, 4 cases
+    //type 0: left-right, left.y < right.y
+    //type 1: left-right, left.y > right.y
+    //type 2: bottom-top, bottom.x > top.x
+    //type 3: bottom-top, bottom.x < top.x
+    public static void drawHallway(int type, Coordinate start, Coordinate mid1, Coordinate mid2, Coordinate end,
+                                    TETile[][] world) {
+        if (type == 0) {
+            Coordinate twallStart = new Coordinate(start.x, start.y + 1);
+            Coordinate twallMid1 = new Coordinate(mid1.x - 1, mid1.y + 1);
+            Coordinate twallMid2 = new Coordinate(mid2.x - 1, mid2.y + 1);
+            Coordinate twallEnd = new Coordinate(end.x, end.y + 1);
+            Coordinate dwallStart = new Coordinate(start.x, start.y - 1);
+            Coordinate dwallMid1 = new Coordinate(mid1.x + 1, mid1.y - 1);
+            Coordinate dwallMid2 = new Coordinate(mid2.x + 1, mid2.y - 1);
+            Coordinate dwallEnd = new Coordinate(end.x, end.y - 1);
+            drawConnectionLR(start, mid1, mid2, end, world, "floor"); //draw way
+            drawConnectionLR(twallStart, twallMid1, twallMid2, twallEnd, world, "wall"); //draw top wall
+            drawConnectionLR(dwallStart, dwallMid1, dwallMid2, dwallEnd, world, "wall"); //draw bottom wall
+
+        } else if (type == 1) {
+            Coordinate twallStart = new Coordinate(start.x, start.y + 1);
+            Coordinate twallMid1 = new Coordinate(mid1.x + 1, mid1.y + 1);
+            Coordinate twallMid2 = new Coordinate(mid2.x + 1, mid2.y + 1);
+            Coordinate twallEnd = new Coordinate(end.x, end.y + 1);
+            Coordinate dwallStart = new Coordinate(start.x, start.y - 1);
+            Coordinate dwallMid1 = new Coordinate(mid1.x - 1, mid1.y - 1);
+            Coordinate dwallMid2 = new Coordinate(mid2.x - 1, mid2.y - 1);
+            Coordinate dwallEnd = new Coordinate(end.x, end.y - 1);
+            drawConnectionLR(start, mid1, mid2, end, world, "floor"); //draw way
+            drawConnectionLR(twallStart, twallMid1, twallMid2, twallEnd, world, "wall"); //draw top wall
+            drawConnectionLR(dwallStart, dwallMid1, dwallMid2, dwallEnd, world, "wall"); //draw bottom wall
+        }
+    }
+
 }

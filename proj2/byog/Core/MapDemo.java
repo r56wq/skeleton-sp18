@@ -61,13 +61,34 @@ public class MapDemo {
             ter.renderFrame(world);
              **/
 
-            /**Test drawConnectoinBT */
+            /**Test drawConnectoinBT
             Coordinate start = new Coordinate(35, 25);
             Coordinate mid1 = new Coordinate(35, 15);
             Coordinate mid2 = new Coordinate(20, 15);
             Coordinate end = new Coordinate(20, 5);
             Draw.drawConnectionBT(start, mid1, mid2, end, world, "floor");
             ter.renderFrame(world);
+            */
+
+             /* Test drawHallway type0
+             Coordinate start = new Coordinate(35, 10);
+             Coordinate mid1 = new Coordinate(50, 10);
+             Coordinate mid2 = new Coordinate(50, 15);
+             Coordinate end = new Coordinate(55, 15);
+             Draw.drawHallway(0, start, mid1, mid2, end, world);
+             ter.renderFrame(world);
+            */
+
+            /**Test drawHallway type1
+            Coordinate start = new Coordinate(35, 10);
+            Coordinate mid1 = new Coordinate(50, 10);
+            Coordinate mid2 = new Coordinate(50, 5);
+            Coordinate end = new Coordinate(57, 5);
+            Draw.drawHallway(1, start, mid1, mid2, end, world);
+            ter.renderFrame(world);
+            */
+
+
 
 
         }
