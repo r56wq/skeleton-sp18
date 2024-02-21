@@ -27,6 +27,13 @@ public class Draw {
         drawRect(bottromLeftFloor, floorW, floorH, world, "floor");
     }
 
+    public static void drawRoom(Room room, TETile[][] world) {
+        Coordinate bottomLeft = new Coordinate(room.startX, room.startY);
+        drawRoom(bottomLeft, room.width, room.height, world);
+    }
+
+
+
 
 
 

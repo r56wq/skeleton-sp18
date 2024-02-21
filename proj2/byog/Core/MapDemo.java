@@ -2,12 +2,13 @@ package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
+import java.util.List;
 
 import java.util.HashMap;
 
 public class MapDemo {
-    private static final int WIDTH = 60;
-    private static final int HEIGHT = 30;
+    private static final int WIDTH = 100;
+    private static final int HEIGHT = 50;
 
 
         public static void main(String[] args) {
@@ -106,5 +107,13 @@ public class MapDemo {
              ter.renderFrame(world);
              */
 
+            /** Test RandRoomGenerator */
+            long seed = 178721;
+            RandRoomGenerator rg = new RandRoomGenerator(seed);
+            List<Room> rooms = rg.generateRooms(WIDTH, HEIGHT);
+            for(Room room : rooms) {
+                Draw.drawRoom(room, world);
+            }
+            ter.renderFrame(world);
         }
 }
