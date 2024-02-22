@@ -27,10 +27,7 @@ public class Draw {
         drawRect(bottromLeftFloor, floorW, floorH, world, "floor");
     }
 
-    public static void drawRoom(Room room, TETile[][] world) {
-        Coordinate bottomLeft = new Coordinate(room.startX, room.startY);
-        drawRoom(bottomLeft, room.width, room.height, world);
-    }
+
 
 
 
@@ -125,7 +122,7 @@ public class Draw {
     //type 1: left-right, left.y > right.y
     //type 2: bottom-top, bottom.x > top.x
     //type 3: bottom-top, bottom.x < top.x
-    private static void drawHallway(int type, Coordinate start, Coordinate mid1, Coordinate mid2,
+    public static void drawHallway(int type, Coordinate start, Coordinate mid1, Coordinate mid2,
                                    Coordinate end, TETile[][] world) {
         if (type == 0) {
             Coordinate twallStart = new Coordinate(start.x, start.y + 1);
