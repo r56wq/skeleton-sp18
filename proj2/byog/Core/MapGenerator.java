@@ -89,70 +89,42 @@ public class MapGenerator {
         }
         return false;
     }
-
-
     private void connectRooms(List<room> rooms) {
         int l = rooms.size();
-        int i;
-        for (i = 0; i < l - 2; i++) {
-            room leftRoom;
-            room rightRoom;
-            int type = -1;
+        for (int i = 0; i < l - 1; i++) {
             room roomA = rooms.get(i);
             room roomB = rooms.get(i + 1);
-            /* find left and right room */
+
+            // Determine the direction of the hallway based on the positions of the rooms
+            int type;
             if (roomA.x < roomB.x) {
-                leftRoom = roomA;
-                rightRoom = roomB;
+                // Room A is to the left of Room B
+                if (roomA.y < roomB.y) {
+                    // Room A is below Room B
+                    type = random.nextInt(2) + 2; // 2 or 3 (Top-Bottom)
+                } else {
+                    // Room A is above Room B
+                    type = random.nextInt(2); // 0 or 1 (Bottom-Top)
+                }
             } else {
-                leftRoom = roomB;
-                rightRoom = roomA;
+                // Room A is to the right of Room B
+                if (roomA.y < roomB.y) {
+                    // Room A is below Room B
+                    type = random.nextInt(2) + 2; // 2 or 3 (Top-Bottom)
+                } else {
+                    // Room A is above Room B
+                    type = random.nextInt(2); // 0 or 1 (Bottom-Top)
+                }
             }
 
-            //if leftRoom is higher
-            if (leftRoom.y > rightRoom.y) {
-                type = random.nextInt(2) + 1; // 1 or 2
-
-            } else { //leftRoom is lower
-                int flag = random.nextInt(2);
-                type = ((flag == 1) ? 0 : 3); // 0 or 3
-            }
-            System.out.println("Hello from" + i);
-            switch (type) {
-                case 0: //jump to next case
-                case 1: {
-                    Coordinate start = new Coordinate(leftRoom.x + leftRoom.roomWidth - 1,
-                            leftRoom.y + random.nextInt(2) + 2);
-                    Coordinate mid1 = new Coordinate(start.x + random.nextInt(2) + 2,
-                            start.y);
-                    Coordinate mid2 = new Coordinate(mid1.x,
-                            rightRoom.y + random.nextInt(2) + 2);
-                    Coordinate end = new Coordinate(rightRoom.x, mid2.y);
-                    Draw.drawHallway(type, start, mid1, mid2, end ,world);
-                    break;
-                }
-                case 2: {
-                    Coordinate start = new Coordinate(rightRoom.x + random.nextInt(2) + 2,
-                            rightRoom.y);
-                    Coordinate mid1 = new Coordinate(start.x, start.y + random.nextInt(2) + 2);
-                    Coordinate mid2 = new Coordinate(mid1.x - random.nextInt(2) + 2, mid1.y);
-                    Coordinate end = new Coordinate(mid2.x, leftRoom.y);
-                    Draw.drawHallway(type, start, mid1, mid2, end, world);
-                    break;
-                }
-                case 3: {
-                    Coordinate start = new Coordinate(leftRoom.x + random.nextInt(2) + 2,
-                            leftRoom.y);
-                    Coordinate mid1 = new Coordinate(start.x, start.y + random.nextInt(2) + 2);
-                    Coordinate mid2 = new Coordinate(mid1.x + random.nextInt(2) + 2, mid1.y);
-                    Coordinate end = new Coordinate(mid2.x, rightRoom.y);
-                    Draw.drawHallway(type, start, mid1, mid2, end, world);
-                    break;
-                }
-
-            }
+            // Draw the hallway based on the chosen type
+            drawHallway(type, roomA, roomB);
         }
     }
+
+
+
+
 
 
     public static void main(String[] args) {
