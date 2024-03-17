@@ -87,11 +87,27 @@ public class Percolation {
             sites.union(idx, virtualTop);
         }
         if (row == length - 1) { /* connect the last row to the virtual bottom */
-            sites.union(idx, virtualBottom);
+            conditionUnion(sites, row, col);
         }
         checkNearby(sites, row, col);
 
     }
+
+    /*
+    * method to union the last row and the virtual bottom conditionally
+     */
+    private void conditionUnion(WeightedQuickUnionUF sites, int row, int col) {
+        int idx = xyT1D(row, col);
+        if ((checkValid(row, col - 1) && isFull(row, col - 1))) {
+            sites.union(idx, virtualBottom);
+        } else if ((checkValid(row, col + 1) && isFull(row, col + 1))) {
+            sites.union(idx, virtualBottom);
+        } else if ((checkValid(row - 1, col) && isFull(row - 1, col))) {
+            sites.union(idx, virtualBottom);
+        }
+
+    }
+
 
     /*
     * check if a site is open
@@ -113,37 +129,6 @@ public class Percolation {
                     + "is out of boundary");
         }
 
-        if (!isOpen(row, col)) {
-            return false;
-        }
-        int idx1 = xyT1D(row, col);
-        int idx2; //index of another site
-        //to avoid back wash
-        if (row == length - 1) {
-            if (checkValid(row, col - 1) && isOpen(row, col - 1)) {
-                idx2 = xyT1D(row, col - 1);
-                if (sites.connected(idx2, virtualTop)) {
-                    return true;
-                }
-            }
-
-            if (checkValid(row, col + 1) && isOpen(row, col + 1)) {
-                idx2 = xyT1D(row, col + 1);
-                if (sites.connected(idx2, virtualTop)) {
-                    return true;
-                }
-            }
-
-            if (checkValid(row - 1, col) && isOpen(row - 1, col)) {
-                idx2 = xyT1D(row - 1, col);
-                if (sites.connected(idx2, virtualTop)) {
-                    return true;
-                }
-            }
-
-
-            return false; // if no full site nearby
-        }
         return sites.connected(xyT1D(row, col), virtualTop);
     }
 
