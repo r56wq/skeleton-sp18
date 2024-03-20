@@ -51,7 +51,7 @@ public class Percolation {
             sites.union(idx1, idx2);
         }
 
-        if (checkValid(row - 1, col) && isOpen(row - 1, col)) {
+        if (checkValid(row - 1, col) && isOpen(row - 1, col) && isFull(row - 1, col)) {
             int idx1 = xyT1D(row, col);
             int idx2 = xyT1D(row - 1, col);
             sites.union(idx1, idx2);
@@ -68,7 +68,10 @@ public class Percolation {
     * helper method to check if a point is a valid point
      */
     private boolean checkValid(int row, int col) {
-        return (xyT1D(row, col) < (length * length)) && (xyT1D(row, col) > 0 || xyT1D(row, col) == 0) ;
+        if ((row > 0 || row == 0) && (col > 0) || (col == 0)) {
+            return (xyT1D(row, col) < (length * length)) && (xyT1D(row, col) > 0 || xyT1D(row, col) == 0);
+        }
+        return false;
     }
 
     /*
