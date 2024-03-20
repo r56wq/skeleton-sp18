@@ -89,26 +89,12 @@ public class Percolation {
             sites.union(idx, virtualTop);
         }
         if (row == length - 1) { /* connect the last row to the virtual bottom */
-            conditionUnion(sites, row, col);
+            sites.union(idx, virtualBottom);
         }
         checkNearby(sites, row, col);
 
     }
 
-    /*
-    * method to union the last row and the virtual bottom conditionally
-     */
-    private void conditionUnion(WeightedQuickUnionUF sites, int row, int col) {
-        int idx = xyT1D(row, col);
-        if ((checkValid(row, col - 1) && isFull(row, col - 1))) {
-            sites.union(idx, virtualBottom);
-        } else if ((checkValid(row, col + 1) && isFull(row, col + 1))) {
-            sites.union(idx, virtualBottom);
-        } else if ((checkValid(row - 1, col) && isFull(row - 1, col))) {
-            sites.union(idx, virtualBottom);
-        }
-
-    }
 
 
     /*
@@ -130,7 +116,21 @@ public class Percolation {
             throw new java.lang.IndexOutOfBoundsException("Index" + row + " " + col
                     + "is out of boundary");
         }
-
+        if (!isOpen(row, col)) {
+            return false;
+        }
+        /*
+        //to avoid back wash
+        if (row == length - 1) {
+            if ((isOpen(row, col - 1)) && (checkValid(row, col - 1)) && (sites.connected(xyT1D(row, col - 1), virtualTop))) {
+                return true;
+            } else if ((isOpen(row, col + 1)) && (checkValid(row, col + 1)) && (sites.connected(xyT1D(row, col + 1), virtualTop))) {
+                return true;
+            } else {
+                return ((isOpen(row - 1, col)) && checkValid(row - 1, col)) && (sites.connected(xyT1D(row - 1, col), virtualTop));
+            }
+        }
+        */
         return sites.connected(xyT1D(row, col), virtualTop);
     }
 
