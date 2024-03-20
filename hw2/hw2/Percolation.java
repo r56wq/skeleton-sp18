@@ -51,7 +51,7 @@ public class Percolation {
             sites.union(idx1, idx2);
         }
 
-        if (checkValid(row - 1, col) && isOpen(row - 1, col) && isFull(row - 1, col)) {
+        if (checkValid(row - 1, col) && isOpen(row - 1, col)) {
             int idx1 = xyT1D(row, col);
             int idx2 = xyT1D(row - 1, col);
             sites.union(idx1, idx2);
