@@ -79,7 +79,9 @@ public class Percolation {
             throw new java.lang.IndexOutOfBoundsException("Index" + row + " " + col
                     + "is out of boundary");
         }
-
+        if (isOpen(row, col)) {
+            return;
+        }
         openNums++;
         int idx = xyT1D(row, col);
         opens[idx] = true;
