@@ -6,19 +6,20 @@ import edu.princeton.cs.introcs.StdRandom;
 
 public class PercolationStats {
     private int experimentTime;
-    private int numOpenSites[]; // store numbers of open site until percolate
-    private double threshold[];
-    public PercolationStats(int N, int T, PercolationFactory pf) { // perform T independent experiments on an N-by-N grid
+    private int [] numOpenSites; // store numbers of open site until percolate
+    private double [] threshold;
+    public PercolationStats(int N, int T, PercolationFactory pf) { // perform T
+        // independent experiments on an N-by-N grid
         experimentTime = T;
         Percolation pl;
         pl = pf.make(N);
         numOpenSites = new int[experimentTime];
         threshold = new double[experimentTime];
-        doExp(experimentTime, pl, N);
+        doExp(pl, N);
         calThreshold(N);
     }
 
-    private void doExp(int experimentTime, Percolation pl, int N) {
+    private void doExp(Percolation pl, int N) {
         for (int i = 0; i < experimentTime; i++) {
             while (!pl.percolates()) {
                 int row = StdRandom.uniform(N);

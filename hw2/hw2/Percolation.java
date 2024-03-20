@@ -32,7 +32,7 @@ public class Percolation {
     /*
     * helper method to check if nearby sites is open
      */
-    private void checkNearby(WeightedQuickUnionUF sites, int row, int col) {
+    private void checkNearby(int row, int col) {
         if (!checkValid(row, col)) {
             throw new java.lang.IndexOutOfBoundsException("Index" + row + " " + col
                     + "is out of boundary");
@@ -68,8 +68,8 @@ public class Percolation {
     * helper method to check if a point is a valid point
      */
     private boolean checkValid(int row, int col) {
-        if ((row > 0 || row == 0) && (col > 0) || (col == 0)) {
-            return (xyT1D(row, col) < (length * length)) && (xyT1D(row, col) > 0 || xyT1D(row, col) == 0);
+        if (((row > 0) || (row == 0)) && ((col > 0)) || ((col == 0))) {
+            return (row < length) && (col < length);
         }
         return false;
     }
@@ -94,7 +94,7 @@ public class Percolation {
         if (row == length - 1) { /* connect the last row to the virtual bottom */
             sites.union(idx, virtualBottom);
         }
-        checkNearby(sites, row, col);
+        checkNearby(row, col);
 
     }
 
@@ -125,12 +125,15 @@ public class Percolation {
         /*
         //to avoid back wash
         if (row == length - 1) {
-            if ((isOpen(row, col - 1)) && (checkValid(row, col - 1)) && (sites.connected(xyT1D(row, col - 1), virtualTop))) {
+            if ((isOpen(row, col - 1)) && (checkValid(row, col - 1)) &&
+            (sites.connected(xyT1D(row, col - 1), virtualTop))) {
                 return true;
-            } else if ((isOpen(row, col + 1)) && (checkValid(row, col + 1)) && (sites.connected(xyT1D(row, col + 1), virtualTop))) {
+            } else if ((isOpen(row, col + 1)) && (checkValid(row, col + 1)) &&
+            (sites.connected(xyT1D(row, col + 1), virtualTop))) {
                 return true;
             } else {
-                return ((isOpen(row - 1, col)) && checkValid(row - 1, col)) && (sites.connected(xyT1D(row - 1, col), virtualTop));
+                return ((isOpen(row - 1, col)) && checkValid(row - 1, col)) &&
+                (sites.connected(xyT1D(row - 1, col), virtualTop));
             }
         }
         */
