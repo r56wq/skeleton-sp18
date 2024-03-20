@@ -68,7 +68,7 @@ public class Percolation {
     * helper method to check if a point is a valid point
      */
     private boolean checkValid(int row, int col) {
-        if (((row > 0) || (row == 0)) && ((col > 0)) || ((col == 0))) {
+        if (((row > 0) || (row == 0)) && ((col > 0) || (col == 0))) {
             return (row < length) && (col < length);
         }
         return false;
