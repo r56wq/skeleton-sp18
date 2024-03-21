@@ -150,4 +150,9 @@ public class Percolation {
     public boolean percolates() {
         return sites.connected(virtualTop, virtualBottom);
     }
+
+    public static void main(String[] args) {
+
+    }
+
 }

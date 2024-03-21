@@ -8,30 +8,47 @@ public class PercolationStats {
     private int experimentTime;
     private int [] numOpenSites; // store numbers of open site until percolate
     private double [] threshold;
+
+    private int length;
     public PercolationStats(int N, int T, PercolationFactory pf) { // perform T
         // independent experiments on an N-by-N grid
         experimentTime = T;
-        Percolation pl;
-        pl = pf.make(N);
+        length = N;
         numOpenSites = new int[experimentTime];
         threshold = new double[experimentTime];
-        doExp(pl, N);
+        doExp(pf);
         calThreshold(N);
     }
 
-    private void doExp(Percolation pl, int N) {
+    private void doExp(PercolationFactory pf) {
+        Percolation pl;
         for (int i = 0; i < experimentTime; i++) {
+            //creat a N by N grid
+            pl = pf.make(length);
             while (!pl.percolates()) {
-                int row = StdRandom.uniform(N);
-                int col = StdRandom.uniform(N);
-                if (!pl.isOpen(row, col)) {
-                    pl.open(row, col);
-                } else {
-                    numOpenSites[i]++;
-                }
+                // randomly open a site
+                openSite(pl);
+                numOpenSites[i]++;
             }
         }
     }
+
+
+
+    /*
+    *Given a percolation object, return the coordinates of an unopen coordinates
+     */
+    private void openSite(Percolation pl) {
+        int row;
+        int col;
+        do {
+            row = StdRandom.uniform(length);
+            col = StdRandom.uniform(length);
+        } while (pl.isOpen(row, col));
+        pl.open(row, col);
+    }
+
+
 
 
     private void calThreshold(int n) {
