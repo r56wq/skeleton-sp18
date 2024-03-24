@@ -1,109 +1,172 @@
 package lab9;
-
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-/**
- * Implementation of interface Map61B with BST as core data structure.
- *
- * @author Your name here
- */
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
-
+    private Node root;
     private class Node {
-        /* (K, V) pair stored in this Node. */
-        private K key;
-        private V value;
+        private K key; //sorted by key
+        private V value; //associated data
+        private Node left, right; //left and right subtree
+        private int size; //number of nodes in subtrees
 
-        /* Children of this Node. */
-        private Node left;
-        private Node right;
-
-        private Node(K k, V v) {
+        private Node(K k, V v, int s) {
             key = k;
             value = v;
+            size = s;
         }
     }
 
-    private Node root;  /* Root node of the tree. */
-    private int size; /* The number of key-value pairs in the tree */
+    @Override
+    public void put(K key, V value) {
+        if (key == null) {
+            throw new IllegalArgumentException("cannot put null key");
+        } else if (value == null) {
+            throw new IllegalArgumentException("value cannot be null");
+        }
 
-    /* Creates an empty BSTMap. */
-    public BSTMap() {
-        this.clear();
+        root = put(root, key, value);
     }
 
-    /* Removes all of the mappings from this map. */
+    /*
+    helper method to put a pair
+     */
+    private Node put(Node node, K key, V value) {
+        if (node == null) {
+            return new Node(key, value, 1);
+        }
+        int cmp = key.compareTo(node.key);
+
+        //insert on the left side
+        if (cmp < 0) {
+            node.left = put(node.left, key, value);
+        }
+
+        //insert on the right side
+        if (cmp > 0) {
+            node.right = put(node.right, key, value);
+        }
+
+        if (cmp == 0) {
+            node.value = value;
+        }
+
+        node.size = 1 + size(node.left) + size(node.right);
+        return node;
+    }
+
+
+    @Override
+    public boolean containsKey(K key) {
+        if (key == null) {
+            throw new RuntimeException("cannot search a null key");
+        }
+        return containsKey(root, key);
+    }
+
+    /*
+    helper method that check if a key is contained
+     */
+    private boolean containsKey(Node node, K key) {
+        if (node == null) {
+            return false;
+        }
+        int cmp = (node.key).compareTo(key);
+        if (cmp == 0) {
+            return true;
+        } else if (cmp > 0) {
+            //search on the left
+            return containsKey(node.left, key);
+        } else {
+            //search on the right
+            return containsKey(node.right, key);
+        }
+    }
+
+    @Override
+    public int size() {
+        if (root == null) {
+            return 0;
+        }
+        return root.size;
+    }
+
+    /*
+    private method to calculate the size of given node
+     */
+    private int size(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        return 1 + size(node.left) + size(node.right);
+    }
+
     @Override
     public void clear() {
         root = null;
-        size = 0;
     }
 
-    /** Returns the value mapped to by KEY in the subtree rooted in P.
-     *  or null if this map contains no mapping for the key.
-     */
-    private V getHelper(K key, Node p) {
-        throw new UnsupportedOperationException();
-    }
-
-    /** Returns the value to which the specified key is mapped, or null if this
-     *  map contains no mapping for the key.
-     */
     @Override
     public V get(K key) {
-        throw new UnsupportedOperationException();
+        if (key == null) {
+            throw new RuntimeException("key cannot be null");
+        }
+        return get(root, key);
     }
 
-    /** Returns a BSTMap rooted in p with (KEY, VALUE) added as a key-value mapping.
-      * Or if p is null, it returns a one node BSTMap containing (KEY, VALUE).
+    /*
+    helper method to find a value of corresponding key
      */
-    private Node putHelper(K key, V value, Node p) {
-        throw new UnsupportedOperationException();
+    private V get(Node node, K key) {
+        if (node == null) {
+            return null;
+        }
+        int cmp = (node.key).compareTo(key);
+        if (cmp == 0) {
+            return node.value;
+        } else if (cmp > 0) {
+            //search on the left
+            return get(node.left, key);
+        } else {
+            //search on the right
+            return get(node.right, key);
+        }
     }
 
-    /** Inserts the key KEY
-     *  If it is already present, updates value to be VALUE.
-     */
-    @Override
-    public void put(K key, V value) {
-        throw new UnsupportedOperationException();
-    }
-
-    /* Returns the number of key-value mappings in this map. */
-    @Override
-    public int size() {
-        throw new UnsupportedOperationException();
-    }
-
-    //////////////// EVERYTHING BELOW THIS LINE IS OPTIONAL ////////////////
-
-    /* Returns a Set view of the keys contained in this map. */
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        Set<K> keyset = new HashSet<>();
+        addKeySet(root, keyset);
+        return keyset;
     }
 
-    /** Removes KEY from the tree if present
-     *  returns VALUE removed,
-     *  null on failed removal.
+    /*
+    helper method that add keys to a set
      */
+
+    private void addKeySet(Node node, Set<K> keyset) {
+        if (node == null) {
+            return;
+        }
+        addKeySet(node.left, keyset);
+        keyset.add(node.key);
+        addKeySet(node.right, keyset);
+    }
+
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("no this method");
     }
 
-    /** Removes the key-value entry for the specified key only if it is
-     *  currently mapped to the specified value.  Returns the VALUE removed,
-     *  null on failed removal.
-     **/
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("no this method");
     }
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("no this method");
     }
+
 }
