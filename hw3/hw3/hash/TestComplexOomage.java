@@ -41,9 +41,11 @@ public class TestComplexOomage {
         List<Integer> dangerList = new ArrayList<>(Arrays.asList(255, 255, 255, 255));
         int dFactor = 10;
         //Create 100 Oomages
-        for (int i = 0; i < 26; i++) {
+        int maxI = 26;
+        for (int i = 0; i < maxI; i++) {
             List<Integer> dangerParam = dangerList;
-            dangerParam.add(10 * i);
+            dangerParam.add(dFactor * i);
+            dangerParam.add(dFactor * (maxI - 1 - i));
             deadlyList.add(new ComplexOomage(dangerParam));
         }
 
