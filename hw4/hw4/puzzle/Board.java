@@ -1,6 +1,6 @@
 package hw4.puzzle;
 import edu.princeton.cs.algs4.Queue;
-public class Board implements WorldState{
+public class Board implements WorldState {
     private int[][] board;
     private int boardSize;
     private int length;
@@ -33,7 +33,7 @@ public class Board implements WorldState{
         return board[i][j];
     }
 
-    public int size(){
+    public int size() {
         if (boardSize == -1) {
             for (int[] ints : board) {
                 for (int anInt : ints) {
@@ -155,6 +155,19 @@ public class Board implements WorldState{
         return true;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        int cols = board[0].length;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < cols; j++) {
+                result = prime * result + this.tileAt(i, j);
+            }
+        }
+        return result;
+    }
+
 
     public String toString() {
         StringBuilder s = new StringBuilder();
@@ -162,7 +175,7 @@ public class Board implements WorldState{
         s.append(N + "\n");
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                s.append(String.format("%2d ", tileAt(i,j)));
+                s.append(String.format("%2d ", tileAt(i, j)));
             }
             s.append("\n");
         }
