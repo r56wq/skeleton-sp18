@@ -112,6 +112,9 @@ public class Board implements WorldState {
         int ham = 0;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
+                if (tileAt(i, j) == blank) {
+                    continue;
+                }
                 int expect = board[i].length * i + j + 1;
                 coordination expectCor = findCor(expect);
                 ham = ham + Math.abs(expectCor.x - i);
