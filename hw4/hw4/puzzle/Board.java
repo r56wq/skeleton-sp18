@@ -110,14 +110,13 @@ public class Board implements WorldState {
      */
     public int hamming() {
         int ham = 0;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
                 if (tileAt(i, j) == blank) {
                     continue;
                 }
-                int expect = board[i].length * i + j + 1;
-                coordination expectCor = findCor(expect);
-                ham = ham + Math.abs(expectCor.x - i);
+                coordination expectCor = findCor(tileAt(i, j));
+                ham = ham + Math.abs(expectCor.y - j);
             }
         }
         return ham;
@@ -144,13 +143,16 @@ public class Board implements WorldState {
     }
 
     public boolean equals(Object y) {
-        if (!y.getClass().equals(board.getClass())) {
+        if (!(y instanceof Board)) {
             return false;
         }
-        int cols = board[0].length;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (!(this.tileAt(i, j) == ((Board) y).tileAt(i, j))) {
+
+        if (this.size() != ((Board) y).size()) {
+            return false;
+        }
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (this.tileAt(i, j) != ((Board) y).tileAt(i, j)) {
                     return false;
                 }
             }
