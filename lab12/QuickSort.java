@@ -48,12 +48,55 @@ public class QuickSort {
             Queue<Item> unsorted, Item pivot,
             Queue<Item> less, Queue<Item> equal, Queue<Item> greater) {
         // Your code here!
+        for (Item i : unsorted) {
+            if (i.compareTo(pivot) < 0) {
+                less.enqueue(i);
+            } else if (i.compareTo(pivot) == 0) {
+                equal.enqueue(i);
+            } else {
+                greater.enqueue(i);
+            }
+        }
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> quickSort(
             Queue<Item> items) {
-        // Your code here!
+        if (items == null || items.size() <= 1) {
+            return items;
+        }
+        Queue<Item> less = new Queue<>();
+        Queue<Item> equal = new Queue<>();
+        Queue<Item> greater = new Queue<>();
+        Item pivot = getRandomItem(items);
+        partition(items, pivot, less, equal, greater);
+        quickSort(less);
+        quickSort(greater);
+        items = catenate(less, equal);
+        items = catenate(items, greater);
         return items;
     }
+
+    public static void main(String[] args) {
+        Queue<String> students = new Queue<String>();
+        students.enqueue("Alice");
+        students.enqueue("Vanessa");
+        students.enqueue("Ethan");
+        Queue<String> sortedStudents = QuickSort.quickSort(students);
+        System.out.println("The original array is");
+        //print the original array
+        for (String s : students) {
+            System.out.print(s + " ");
+        }
+        System.out.println("");
+
+
+        System.out.println("The sorted array is");
+        //print the sorted array
+        for (String s : sortedStudents) {
+            System.out.print(s + " ");
+        }
+        System.out.println("");
+    }
 }
+
