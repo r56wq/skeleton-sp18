@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Queue;
 
 public class MergeSort {
@@ -93,15 +94,22 @@ public class MergeSort {
     }
 
     public static void main(String args[]) {
-        Queue<String> students = new Queue<String>();
-        students.enqueue("Alice");
-        students.enqueue("Vanessa");
-        students.enqueue("Ethan");
-        Queue<String> sortedStudents = MergeSort.mergeSort(students);
+        Queue<Integer> students = new Queue<Integer>();
+        students.enqueue(0);
+        students.enqueue(2);
+        students.enqueue(1);
+        students.enqueue(6);
+        students.enqueue(3);
+        students.enqueue(4);
+        students.enqueue(5);
+        students.enqueue(6);
+        students.enqueue(7);
+        students.enqueue(8);
+        Queue<Integer> sortedStudents = MergeSort.mergeSort(students);
 
         System.out.println("The original array is");
         //print the original array
-        for (String s : students) {
+        for (int s : students) {
             System.out.print(s + " ");
         }
         System.out.println("");
@@ -109,7 +117,7 @@ public class MergeSort {
 
         System.out.println("The sorted array is");
         //print the sorted array
-        for (String s : sortedStudents) {
+        for (int s : sortedStudents) {
             System.out.print(s + " ");
         }
         System.out.println("");
